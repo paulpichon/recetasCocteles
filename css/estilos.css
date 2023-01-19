@@ -12,3 +12,6 @@ a.nav-link{
 h2.classH2 {
     letter-spacing: 1.2px;
 }
+div.cardPading{
+    width: 18rem;
+}

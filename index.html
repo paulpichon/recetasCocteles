@@ -11,14 +11,14 @@
     
 	<nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Cocktails!</a>
+			<a class="navbar-brand" href="index.html">Cocktails!</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="#">Buscar recetas</a>
+						<a class="nav-link active" aria-current="page" href="index.html">Buscar recetas</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="favoritos.html">Ver favoritos</a>
@@ -33,30 +33,15 @@
 
 		<div class="d-flex justify-content-center">
 			<form class="col-md-8 card bg-light p-5">
-				<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-					<option selected>Categorías</option>
-					<option value="1">One</option>
-					<option value="2">Two</option>
-					<option value="3">Three</option>
+				<select id="categorias" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+					<option selected>-- Seleccionar categoria --</option>
 				</select>
 			</form>
 		</div>
 
-		<main id="resultados" class="resultados row mt-5">
-			<h2 class="classH2 d-flex justify-content-center mt-5 mb-5"><strong>Resultados</strong></h2>
-			<div class="col-md-4 mt-3 mb-3">
-				<div class="card" style="width: 18rem;">
-					<img src="https://thumbs.dreamstime.com/z/paisajes-de-svalbard-spitsbergen-128259899.jpg" class="card-img-top" alt="Nombre de coctel">
-					<div class="card-body">
-					  <h2 class="card-title text-center">Card title</h2>
-					</div>
-					<div class="card-body text-center">
-					  <a href="#" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Ver receta</a>
-					</div>
-				</div>
-			</div>
-
-		</main>
+		<!-- Se muestran los resultados -->	
+		<main id="resultados" class="resultados row mt-5"></main>
+		
 	</div>
 
 
