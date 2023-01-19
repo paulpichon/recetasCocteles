@@ -5,6 +5,8 @@ function iniciarApp() {
     const selectCategorias = document.querySelector('#categorias');
     //resultados
     const resultados = document.querySelector('#resultados');
+    //instanciar modal
+    const modal = new bootstrap.Modal('#modal', {});
 
     //listener al select
     selectCategorias.addEventListener('change', categoriaSeleccionada);
@@ -100,6 +102,11 @@ function iniciarApp() {
             const btnVerReceta = document.createElement('BUTTON');
             btnVerReceta.classList.add('btn', 'btn-info', 'w-100');
             btnVerReceta.textContent = 'Ver Receta';
+            //abrir modal
+            btnVerReceta.onclick = function() {
+                //funcion para mostrar informacion en el modal
+                obtenerRecetaSeleccionada( idDrink );
+            }
 
             //insertar
             //card body
@@ -118,6 +125,93 @@ function iniciarApp() {
 
         });
     }
+    //funcion para mostrar informacion en el modal
+    function obtenerRecetaSeleccionada( id ) {
+        //url de la receta seleccionada
+        const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${ id }`;
+
+        fetch( url )
+            .then( respuesta => respuesta.json() )
+                .then( resultado => mostrarRecetaModal( resultado.drinks[0] ) )
+
+    }
+    //funcion para mostrar la informacion en el modal
+    function mostrarRecetaModal( receta ) {
+        //destructuring
+        const { idDrink, strDrink, strDrinkThumb, strInstructions } = receta;
+
+        //const 
+        const modalTitulo = document.querySelector('.modal .modal-title');
+        const modalBody = document.querySelector('.modal .modal-body');
+
+        //insertar
+        //titulo
+        modalTitulo.textContent = strDrink;
+        //body
+        modalBody.innerHTML = `
+            <img class="card-img-top" src="${ strDrinkThumb }" alt="${ strDrink }" >
+            <h5 class="card-title mt-4 mb-3">Ingredientes y cantidades</h5>
+        `;
+
+        //mostrar ingredientes
+        const listGroup = document.createElement('UL');
+        listGroup.classList.add('list-group');
+
+        for( let i = 1; i <= 20; i++ ) {
+            if (receta[`strIngredient${i}`]) {
+                //ingredientes
+                const ingrediente = receta[`strIngredient${i}`];
+                //cantidades
+                const cantidad = receta[`strMeasure${i}`];
+
+                //crear LI
+                const ingredienteLi = document.createElement('LI');
+                ingredienteLi.textContent = `${ingrediente} - ${cantidad}`;
+                ingredienteLi.classList.add('list-group-item');
+                
+                //insertar ingredienteLi a listGroup
+                listGroup.appendChild( ingredienteLi );
+
+            }
+        }
+        //renderizar listGroup a modalBody
+        modalBody.appendChild( listGroup );
+
+        //crear el card body
+        const cardBody = document.createElement('DIV');
+        cardBody.classList.add('card-body');
+        cardBody.innerHTML = `
+            <h5 class="card-title mt-4 mb-3">Instrucciones</h5>
+            <p>${strInstructions}</p>
+        `;
+
+        //renderizar
+        modalBody.appendChild( cardBody );
+
+        //botones
+        const modalFooter = document.querySelector('.modal-footer');
+
+        //boton guardar favorito
+        const btnGuardarFavorito = document.createElement('BUTTON');
+        btnGuardarFavorito.classList.add('btn', 'btn-danger', 'w-100');
+        btnGuardarFavorito.textContent = 'Agregar Favorito';
+
+        //boton cerrar
+        const btnCerrarModal = document.createElement('BUTTON');
+        btnCerrarModal.classList.add('btn', 'btn-secondary', 'w-100');
+        btnCerrarModal.textContent = 'Cerrar';
+
+
+        //enderizar botones
+        modalFooter.appendChild( btnGuardarFavorito );
+        modalFooter.appendChild( btnCerrarModal );
+
+
+        //mostrar modal
+        modal.show();
+
+    }
+
     //limpiar el html anterior
     function limpiarHTML( selector ) {
         while( selector.firstChild ) {
