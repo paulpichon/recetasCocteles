@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+
+*{
+    font-family: 'Oswald', sans-serif;
+}
+a.navbar-brand{
+    font-size: 1.6em;
+}
+a.nav-link{
+    font-size: 1.3em;
+}
+h2.classH2 {
+    letter-spacing: 1.2px;
+}
