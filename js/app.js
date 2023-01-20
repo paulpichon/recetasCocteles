@@ -197,13 +197,15 @@ function iniciarApp() {
         //boton guardar favorito
         const btnGuardarFavorito = document.createElement('BUTTON');
         btnGuardarFavorito.classList.add('btn', 'btn-danger', 'w-100');
-        btnGuardarFavorito.textContent = 'Agregar Favorito';
+        btnGuardarFavorito.textContent = existeReceta( idDrink ) ? 'Eliminar Favorito' : 'Agregar Favorito';
         //agregar funcion a guardar favorito
         btnGuardarFavorito.onclick = function() {
 
             if (existeReceta( idDrink )) {
                 //si existe la receta se elimina de storage
                 eliminarReceta( idDrink );
+                //cambiar texto del boton
+                btnGuardarFavorito.textContent = 'Agregar Favorito';
                 //mostrar mensaje
                 mostrarMensaje('Receta eliminada correctamente');
                 return;
@@ -216,6 +218,8 @@ function iniciarApp() {
                 titulo: strDrink,
                 img: strDrinkThumb
             });
+            //cambiar texto
+            btnGuardarFavorito.textContent = 'Eliminar Favorito';
             //mostrar mensaje
             mostrarMensaje('Receta guardada correctamente');
         }
