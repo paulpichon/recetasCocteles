@@ -200,6 +200,12 @@ function iniciarApp() {
         btnGuardarFavorito.textContent = 'Agregar Favorito';
         //agregar funcion a guardar favorito
         btnGuardarFavorito.onclick = function() {
+
+            if (existeReceta( idDrink )) {
+                
+                return;
+            }
+
             //funcion para guardar favorito
             //pasamos un objeto como argumento
             guardarFavorito({
@@ -236,6 +242,15 @@ function iniciarApp() {
         const favoritos = JSON.parse( localStorage.getItem('favoritosCocteles') ) ?? [];
         //guardar en local storage
         localStorage.setItem('favoritosCocteles', JSON.stringify([...favoritos, receta]));
+    }
+    //funcion para verficar que no se repitan
+    function existeReceta( id ) {
+        //obtener recetas de storage
+        const favoritos = JSON.parse( localStorage.getItem('favoritosCocteles') ) ?? [];
+        //iterar 
+        //devolvera true o false
+        return favoritos.some( favorito => favorito.id === id );
+
     }
 
     //limpiar el html anterior
