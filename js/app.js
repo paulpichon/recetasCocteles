@@ -189,17 +189,34 @@ function iniciarApp() {
         modalBody.appendChild( cardBody );
 
         //botones
+        //selector
         const modalFooter = document.querySelector('.modal-footer');
+        //limpiar botones
+        limpiarHTML( modalFooter );
 
         //boton guardar favorito
         const btnGuardarFavorito = document.createElement('BUTTON');
         btnGuardarFavorito.classList.add('btn', 'btn-danger', 'w-100');
         btnGuardarFavorito.textContent = 'Agregar Favorito';
+        //agregar funcion a guardar favorito
+        btnGuardarFavorito.onclick = function() {
+            //funcion para guardar favorito
+            //pasamos un objeto como argumento
+            guardarFavorito({
+                id: idDrink,
+                titulo: strDrink,
+                img: strDrinkThumb
+            });
+        }
 
         //boton cerrar
         const btnCerrarModal = document.createElement('BUTTON');
         btnCerrarModal.classList.add('btn', 'btn-secondary', 'w-100');
         btnCerrarModal.textContent = 'Cerrar';
+        //cerrar modal
+        btnCerrarModal.onclick = function() {
+            modal.hide();
+        }
 
 
         //enderizar botones
@@ -210,6 +227,15 @@ function iniciarApp() {
         //mostrar modal
         modal.show();
 
+    }
+
+    //funcion para guardar favorito
+    function guardarFavorito( receta ) {
+        //obtener storage
+        //en caso de que no haya sera un arreglo vacio
+        const favoritos = JSON.parse( localStorage.getItem('favoritosCocteles') ) ?? [];
+        //guardar en local storage
+        localStorage.setItem('favoritosCocteles', JSON.stringify([...favoritos, receta]));
     }
 
     //limpiar el html anterior
