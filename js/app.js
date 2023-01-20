@@ -204,7 +204,8 @@ function iniciarApp() {
             if (existeReceta( idDrink )) {
                 //si existe la receta se elimina de storage
                 eliminarReceta( idDrink );
-
+                //mostrar mensaje
+                mostrarMensaje('Receta eliminada correctamente');
                 return;
             }
 
@@ -215,6 +216,8 @@ function iniciarApp() {
                 titulo: strDrink,
                 img: strDrinkThumb
             });
+            //mostrar mensaje
+            mostrarMensaje('Receta guardada correctamente');
         }
 
         //boton cerrar
@@ -262,6 +265,21 @@ function iniciarApp() {
         const nuevosFavoritos = favoritos.filter( favorito => favorito.id !== id );
         //añadir a storage
         localStorage.setItem('favoritosCocteles', JSON.stringify(nuevosFavoritos));
+
+    }
+    //funcion para mostrar toast
+    function mostrarMensaje( mensaje ) {
+        //instanciar el toast
+        const divToast = document.querySelector('#liveToast');
+
+        //instanciar el toast
+        const toast = new bootstrap.Toast(divToast);
+        //
+        const toastBody = document.querySelector('.toast-body');
+        toastBody.textContent = mensaje;
+
+        //mostrar toast
+        toast.show();
 
     }
 
