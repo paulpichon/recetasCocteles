@@ -202,7 +202,9 @@ function iniciarApp() {
         btnGuardarFavorito.onclick = function() {
 
             if (existeReceta( idDrink )) {
-                
+                //si existe la receta se elimina de storage
+                eliminarReceta( idDrink );
+
                 return;
             }
 
@@ -250,6 +252,16 @@ function iniciarApp() {
         //iterar 
         //devolvera true o false
         return favoritos.some( favorito => favorito.id === id );
+
+    }
+    //funcion para eliminar de storage
+    function eliminarReceta( id ) {
+        //obtener de storage
+        const favoritos = JSON.parse( localStorage.getItem('favoritosCocteles') ) ?? [];
+        //filter()
+        const nuevosFavoritos = favoritos.filter( favorito => favorito.id !== id );
+        //añadir a storage
+        localStorage.setItem('favoritosCocteles', JSON.stringify(nuevosFavoritos));
 
     }
 
