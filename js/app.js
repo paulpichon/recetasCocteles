@@ -8,11 +8,22 @@ function iniciarApp() {
     //instanciar modal
     const modal = new bootstrap.Modal('#modal', {});
 
-    //listener al select
-    selectCategorias.addEventListener('change', categoriaSeleccionada);
+    //pagina favoritos
+    const divFavoritos = document.querySelector('.favoritos');
+    if (divFavoritos) {
+        //llamar funcion para mostrar storage favoritos en la pagina favoritos.html
+        mostrarRecetasFavoritos();
+    }
 
-    //llamar funcion para obtener categorias
-    obtenerCategorias();
+    //listener al select
+    if (selectCategorias) {
+        //agregamos listener a selectCategorias
+        selectCategorias.addEventListener('change', categoriaSeleccionada);    
+        //llamar funcion para obtener categorias
+        obtenerCategorias();
+    }
+
+    
 
     //funcion para obtener las categorias de recetas de cocteles
     function obtenerCategorias() {
@@ -63,7 +74,7 @@ function iniciarApp() {
         //heading resultados
         //<h2 class="classH2 d-flex justify-content-center mt-5 mb-5"><strong>Resultados</strong></h2>
         const headingResultados = document.createElement('H2');
-        headingResultados.classList.add('classH2', 'd-flex', 'justify-content-center', 'mt-5', 'mb-5');
+        headingResultados.classList.add('classH2', 'd-flex', 'justify-content-center', 'mt-5', 'mb-5', 'tituloNofavoritosAun');
         headingResultados.textContent = recetas.length ? 'Resultados' : 'No hay resultados';
 
         //renderizar
@@ -86,8 +97,8 @@ function iniciarApp() {
             //imagen
             const imagenCard = document.createElement('IMG');
             imagenCard.classList.add('card-img-top');
-            imagenCard.alt = `Imagen del coctel ${ strDrink }`;
-            imagenCard.src = strDrinkThumb;
+            imagenCard.alt = `Imagen del coctel ${ strDrink ?? receta.titulo }`;
+            imagenCard.src = strDrinkThumb ?? receta.img;
 
             //cardBody
             const divCardBody = document.createElement('DIV');
@@ -96,7 +107,7 @@ function iniciarApp() {
             //heading
             const cardHeading = document.createElement('H2');
             cardHeading.classList.add('card-title', 'mt-3', 'mb-4');
-            cardHeading.textContent = strDrink;
+            cardHeading.textContent = strDrink ?? receta.titulo;
 
             //boton ver  receta
             const btnVerReceta = document.createElement('BUTTON');
@@ -105,7 +116,7 @@ function iniciarApp() {
             //abrir modal
             btnVerReceta.onclick = function() {
                 //funcion para mostrar informacion en el modal
-                obtenerRecetaSeleccionada( idDrink );
+                obtenerRecetaSeleccionada( idDrink ?? receta.id );
             }
 
             //insertar
@@ -285,6 +296,25 @@ function iniciarApp() {
         //mostrar toast
         toast.show();
 
+    }
+    //mostrar cocteles en la pagina de recetas
+    function mostrarRecetasFavoritos() {
+        //obtener de storage
+        const favoritos = JSON.parse( localStorage.getItem('favoritosCocteles') ) ?? [];
+        
+        if (favoritos.length) {
+            //llamamos funcion para mostrarlos
+            mostrarRecetas( favoritos );
+            
+            return;
+        }
+
+        //si no hya favoritos
+        const noFavoritos = document.createElement('H3');
+        noFavoritos.classList.add('classH2', 'd-flex', 'justify-content-center', 'mt-5', 'mb-5', 'tituloNofavoritosAun');
+        noFavoritos.textContent = 'Aun no hay favoritos';
+        //renderizar
+        divFavoritos.appendChild( noFavoritos );
     }
 
     //limpiar el html anterior
